@@ -14,7 +14,7 @@
 		<el-button type="primary" class="btn-center" size="large" @click='toODW()' color="#1F4FA3">门诊医生工作站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
 		<el-button type="primary" class="btn-center" size="large" @click='doAdd()' color="#1F4FA3">门诊医技工作站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
 		<el-button type="primary" class="btn-center" size="large" @click='todrugquery()' color="#1F4FA3">门诊药房工作站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
-		<el-button type="primary" class="btn-center" size="large" @click='toAdd()' color="#1F4FA3">门诊财务管理站</el-button><br />
+		<el-button type="primary" class="btn-center" size="large" @click='tofinance()' color="#1F4FA3">门诊财务管理站</el-button><br />
 		
 	</el-form-item>
 	<el-calendar v-model="value" />
@@ -56,6 +56,9 @@
 		
 	const toODW = () =>{		
 		router.push('/OutpatientDiagnosis')
+	}
+	const tofinance = () =>{
+		router.push('/caiwu')
 	}
 </script>
 

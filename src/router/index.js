@@ -19,6 +19,13 @@ import OutpatientDoctorWorkStation_InspectionApplication from '../views/Inspecti
 import OutpatientDoctorWorkStation_PatentPrescription from '../views/PatentPrescription.vue'
 
 
+// 财务
+import ExpAdd from '../views/expenseclass/ExpAdd.vue'
+import ExpQuery from '../views/expenseclass/ExpQuery.vue'
+import ExpUpdate from '../views/expenseclass/ExpUpdate.vue'
+import InvoiceQuery from '../views/outpatientfinance/InvoiceQuery.vue'
+import WorkloadStatisticsQuery from '../views/outpatientdepartmentworkloadstatistics/WorkloadStatisticsQuery.vue'
+ import caiwu from '../views/caiwu.vue'
 const routes = [{
 		path: '/',
 		redirect: '/index'
@@ -88,7 +95,40 @@ const routes = [{
 		path: '/PatentPrescription',
 		name: 'OutpatientDoctorWorkStation_PatentPrescription',
 		component: OutpatientDoctorWorkStation_PatentPrescription
-	}
+	},
+	//财务
+	 {
+	  path: '/caiwu',
+	  name: 'caiwu',
+	  component: caiwu,
+	  children:[
+	   {
+	    path:'/expenseclass/ExpQuery',
+	    name:'ExpQuery',
+	    component:ExpQuery
+	   },
+	   {
+	    path:'/expenseclass/ExpAdd',
+	    name:'ExpAdd',
+	    component:ExpAdd
+	   },
+	  {
+	   path:'/expenseclass/ExpUpdate',
+	   name:'ExpUpdate',
+	   component:ExpUpdate
+	  },
+	  {
+	   path:'/outpatientfinance/InvoiceQuery',
+	   name:'InvoiceQuery',
+	   component:InvoiceQuery
+	  },
+	  {
+	   path:'/outpatientdepartmentworkloadstatistics/WorkloadStatisticsQuery',
+	   name:'WorkloadStatisticsQuery',
+	   component:WorkloadStatisticsQuery
+	  },
+	  ]
+	 },
 
 
 
