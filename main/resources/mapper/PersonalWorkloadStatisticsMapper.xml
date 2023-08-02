@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.his.mapper.outpatientDoctorWorkStationMapper.PersonalWorkloadStatisticsMapper">
+
+    <select id="selectAll" resultType="CheckApply">
+        select r.Realname , d.DeptName , sum(p.Price) as SUM
+        from Register r , Department d , Fmeditem p , CheckApply c,User u
+        where r.ID = c.RegistID and c.CheckOperID = u.ID and u.DeptID = d.ID and c.ItemID = p.ID
+        and u.id=2
+        <if test="StartTime!=null and StartTime!='' and EndTime!=null and EndTime!=''">
+            and DATE(c.CreationTime) BETWEEN #{StartTime} AND #{EndTime}
+        </if>
+        group by r.Realname;
+    </select>
+
+	<select id="selectTotalCost" resultType="BigDecimal">
+		select sum(Price) from patientcosts where RegistID = #{RegistID}
+	</select>
+	
+	<select id="selectName" resultType="String">
+		select RealName from register where ID = #{RegistID}
+	</select>
+	
+    <select id="selectByID" resultType="CheckApply">
+        select * from CheckApply where DoctorID = 1 and State = 3
+        <if test="StartTime!=null and StartTime!='' and EndTime!=null and EndTime!=''">
+            and DATE(CreationTime) BETWEEN #{StartTime} AND #{EndTime}
+        </if>
+    </select>
+
+</mapper>

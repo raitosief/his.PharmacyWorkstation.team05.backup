@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.his.mapper.outpatientDoctorWorkStationMapper.DiagnosisCompletedMapper">
+    <select id="select" resultType="Register">
+        select * from Register where VisitState=2 and DeptID=#{DeptID} and UserID=#{UserID}
+     
+            <!-- 如果参数对象的uname属性非空且不是空字符串，则if中的sql语句生效；#{uname}表示取得参数对象的uname属性值 -->
+            <if test="RealName!=null and RealName!=''">
+                and RealName=#{RealName}
+            </if>
+            <if test="CaseNumber!=null and CaseNumber!=''">
+                and CaseNumber=#{CaseNumber}
+            </if>
+    </select>
+
+
+    <select id="getRecord" resultType="MedicalRecord">
+        select * from MedicalRecord where CaseNumber=#{CaseNumber} and CaseState=2
+    </select>
+
+    <update id="commitEndPatient">
+        update Register set VisitState=3 where CaseNumber=#{CaseNumber}
+    </update>
+
+    <update id="commitEndMedicalRecord">
+        update MedicalRecord set CaseState=3 where CaseNumber=#{CaseNumber} and RegistID=#{RegistID}
+    </update>
+
+</mapper>
