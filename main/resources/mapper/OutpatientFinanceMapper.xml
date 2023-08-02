@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neuedu.his.mapper.OutpatientFiancial.OutpatientFinanceMapper">
+
+	 <select id="selectAll" resultType="Invoice">
+		select *from invoice  i LEFT OUTER JOIN user u
+		on i.userID=u.ID
+		<where>
+			
+			<if test="UserName!=null and UserName !=''">
+				and UserName like concat('%',#{UserName},'%')
+			</if>
+			<if test="CreationTime!=null">
+				and CreationTime >=#{CreationTime}
+			</if>
+
+			
+		</where>
+	</select> 
+	
+
+
+	
+
+	
+		<update id="pass" >
+	update invoice set DailyState=2
+	where UserID=#{UserID}
+	</update>
+	
+	<update id="reiterate" >
+	update invoice set DailyState=0
+	where UserID=#{UserID}
+	</update>
+
+
+	
+
+</mapper>
