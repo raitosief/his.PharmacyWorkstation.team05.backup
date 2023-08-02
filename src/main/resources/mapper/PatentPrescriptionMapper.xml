@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的值，要填写对应模块的mapper接口类的全类名 -->
+<mapper
+	namespace="com.neuedu.his.mapper.outpatientDoctorWorkStationMapper.PatentPrescriptionMapper">
+	<select id="select" resultType="Register">
+		select * from Register where VisitState=2 and DeptID=#{DeptID} and
+		UserID=#{UserID}
+
+		<if test="RealName!=null and RealName!=''">
+			and RealName=#{RealName}
+		</if>
+		<if test="CaseNumber!=null and CaseNumber!=''">
+			and CaseNumber=#{CaseNumber}
+		</if>
+	</select>
+
+	<select id="getHList" resultType="DrugsTemplate">
+		select * from DrugsTemplate
+		where Scope = 1 and DelMark = 1;
+	</select>
+
+	<select id="getDList" resultType="DrugsTemplate">
+		select * from DrugsTemplate
+		where Scope = 2 and DelMark = 1;
+	</select>
+
+	<select id="getPList" resultType="DrugsTemplate">
+		select * from DrugsTemplate
+		where Scope = 3 and UserID = 1 and DelMark = 1;
+	</select>
+
+	<select id="getUserID" resultType="Integer">
+		select UserID from
+		DrugsTemplate where ID = #{ID} and DelMark = 1;
+	</select>
+
+	<update id="deleteTemp">
+		update DrugsTemplate set DelMark = 0 where ID =#{ID};
+	</update>
+
+	<delete id="deleteTempDetail">
+		delete from DrugsDetailed where DrugsTempID = #{ID};
+	</delete>
+	<select id="getDrugsDetailed" resultType="DrugsDetailed">
+		select * from DrugsDetailed where DrugsTempID = #{ID}	
+	</select>
+	
+	<select id="getPrescription" resultType="Prescription">
+		select * from
+		Prescription where RegistID = #{ID};
+	</select>
+
+	<insert id="addPrescription">
+		insert into
+		Prescription(MedicalID,RegistID,UserID,PrescriptionName,PrescriptionTime,PrescriptionState)
+		values(#{MedicalID},#{RegistID},1,#{PrescriptionName},#{PrescriptionTime},1);
+	</insert>
+
+	<select id="getMedicalID" resultType="Integer">
+		select ID from
+		MedicalRecord where RegistID = #{RegistID};
+	</select>
+
+	<select id="editPrescription" resultType="PrescriptionDetailed">
+		select * from
+		PrescriptionDetailed where PrescriptionID = #{preID}
+	</select>
+
+	<select id="getDrugName" resultType="String">
+		select DrugsName from Drugs
+		where ID =#{drugID};
+	</select>
+
+	<update id="staging">
+		update Prescription set PrescriptionState = 1 where
+		ID=#{preID};
+	</update>
+
+	<update id="open">
+		update Prescription set PrescriptionState = 2 where
+		ID=#{preID};
+	</update>
+
+	<update id="repeal">
+		update Prescription set PrescriptionState = 0 where
+		ID=#{preID};
+	</update>
+
+	<delete id="dodelete">
+		delete from Prescription where ID=#{preID};
+	</delete>
+
+	<delete id="deleteDrugs">
+		delete from PrescriptionState where
+		PrescriptionID=#{preID};
+	</delete>
+
+	<select id="getState" resultType="Integer">
+		select PrescriptionState from
+		Prescription where ID=#{preID};
+	</select>
+
+	<select id="getDrugsID" resultType="Integer">
+		select ID from Drugs where
+		DrugsName = #{DrugsName};
+	</select>
+
+	<delete id="deleteDrug">
+		delete from PrescriptionDetailed where ID =#{ID};
+	</delete>
+	
+	<update id="updateDrug">
+		update PrescriptionDetailed set DrugsUsage = #{DrugsUsage},Dosage=#{Dosage},Frequency=#{Frequency},Amount=#{Amount} where ID=#{ID}
+	</update>
+	
+	<insert id="saveDrug">
+		insert into PrescriptionDetailed(PrescriptionID,DrugsID,DrugsUsage,Dosage,Frequency,Amount,State)
+		values(#{PrescriptionID},#{DrugsID},#{DrugsUsage},#{Dosage},#{Frequency},#{Amount},2);
+	</insert>
+	
+	<select id="tempIsExist" resultType="DrugsTemplate">
+		select * from DrugsTemplate where Name=#{Name} and UserID = 1 and Scope = #{Scope} and DelMark = 1;
+	</select>
+	
+	<insert id="saveTemp">
+		insert into DrugsTemplate(Name,UserID,CreationTime,Scope,DelMark)
+		values(#{Name},1,#{CreationTime},#{Scope},1);
+	</insert>
+	
+	<insert id="saveTempDetail">
+		insert into DrugsDetailed(DrugsTempID,DrugsID,DrugsUsage,Dosage,Frequency)
+		values(#{PrescriptionID},#{DrugsID},#{DrugsUsage},#{Dosage},#{Frequency});
+	</insert>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的值，要填写对应模块的mapper接口类的全类名 -->
+<mapper namespace="com.neuedu.his.mapper.outpatientPharmacyWorkstationMapper.DrugCatalogueManaGementMapper">
+    <!-- select标签表示对应查询语句；id值唯一并且要与接口类中的对应方法名一致；resultType值要与接口类中对应方法的返回值类型匹配 -->
+    <select id="selectAll" resultType="Drugs">
+        select * from Drugs where delMark=1
+        <!-- where标签表示生成where关键字，配合下面的if标签可以动态生成sql语句 -->
+        
+            <!-- 如果参数对象的uname属性非空且不是空字符串，则if中的sql语句生效；#{uname}表示取得参数对象的uname属性值 -->
+            <if test="DrugsName!=null and DrugsName!=''">
+                and DrugsName like concat('%', #{DrugsName}, '%')
+            </if>
+			
+			
+        
+        order by ID desc
+        limit 0,100
+    </select>
+
+    <select id="selectById" resultType="User">
+        select * from User where ID=#{ID}
+    </select>
+
+    <!-- insert标签匹配插入语句，不需要有参数或者返回值设置，框架自动匹配 -->
+    <insert id="add" useGeneratedKeys="true" keyProperty="ID">
+        insert into Drugs(CreationDate,DrugsCode,DrugsDosageID,DrugsFormat,DrugsName,DrugsPrice,DrugsUnit,Manufacturer,MnemonicCode)
+        values(#{CreationDate},#{DrugsCode},#{DrugsDosageID},#{DrugsFormat},#{DrugsName},#{DrugsPrice},#{DrugsUnit},#{Manufacturer},#{MnemonicCode})
+    </insert>
+
+    <update id="update">
+        update Drugs set DrugsCode=#{DrugsCode},DrugsDosageID=#{DrugsDosageID}, DrugsFormat=#{DrugsFormat}, DrugsName=#{DrugsName}, DrugsPrice=#{DrugsPrice}, DrugsUnit=#{DrugsUnit}, Manufacturer=#{Manufacturer},MnemonicCode=#{MnemonicCode}
+                         where ID=#{ID}
+    </update>
+
+    <update id="delete">
+        update Drugs set DelMark = 0 where ID=#{ID}
+    </update>
+
+</mapper>

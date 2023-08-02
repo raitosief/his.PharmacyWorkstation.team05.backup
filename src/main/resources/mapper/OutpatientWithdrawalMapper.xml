@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace的值，要填写对应模块的mapper接口类的全类名 -->
+<mapper
+	namespace="com.neuedu.his.mapper.outpatientPharmacyWorkstationMapper.OutpatientWithdrawalMapper">
+
+	<!-- select标签表示对应查询语句；id值唯一并且要与接口类中的对应方法名一致；resultType值要与接口类中对应方法的返回值类型匹配 -->
+	<select id="selectAll" resultType="Prescription">
+		select distinct pd.ID,p.UserId,
+		d.DrugsName,d.DrugsFormat,pd.Amount,d.DrugsUnit,d.DrugsPrice,
+		(d.DrugsPrice*pd.Amount) as
+		SUM,d.ManuFacturer,pd.DrugsUsage,pd.Dosage,pd.State,r.RealName,
+		r.Gender,r.Age,r.caseNumber
+		from Drugs d ,Prescription p,Prescriptiondetailed pd, MedicalRecord m ,
+		Register r
+		where pd.PrescriptionID = p.id and pd.drugsid = d.id and m.ID = p.MedicalID
+		and m.RegistID = r.ID
+		<if test="CaseNumber!=null and CaseNumber!=''">
+			and m.CaseNumber = #{CaseNumber}
+		</if>
+		<if test="State!=null and State!=''">
+			and pd.State = #{State}
+		</if>
+		and pd.State!=2
+	</select>
+
+	<update id="update">
+	UPDATE PrescriptionDetailed
+		LEFT JOIN Prescription ON PrescriptionDetailed.PrescriptionID =	Prescription.ID
+		SET PrescriptionDetailed.Amount = CASE
+		WHEN PrescriptionDetailed.Amount - #{amount} &lt; 0 THEN 0
+		WHEN #{amount} &lt; 0 THEN PrescriptionDetailed.Amount
+		ELSE PrescriptionDetailed.Amount - #{amount}
+		END
+		WHERE PrescriptionDetailed.ID = #{id}
+		and PrescriptionDetailed.State=4
+	</update>
+
+	<update id="updateAll">
+		update PrescriptionDetailed pd,Prescription p, MedicalRecord m ,
+		Register r
+		set pd.State = 5
+		where pd.PrescriptionID = p.id and m.ID = p.MedicalID and m.RegistID = r.ID
+		<if test="CaseNumber!=null and CaseNumber!=''">
+			and m.CaseNumber = #{CaseNumber}
+		</if>
+	</update>
+
+
+</mapper>
