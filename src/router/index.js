@@ -26,6 +26,12 @@ import ExpUpdate from '../views/expenseclass/ExpUpdate.vue'
 import InvoiceQuery from '../views/outpatientfinance/InvoiceQuery.vue'
 import WorkloadStatisticsQuery from '../views/outpatientdepartmentworkloadstatistics/WorkloadStatisticsQuery.vue'
  import caiwu from '../views/caiwu.vue'
+ 
+ // 挂号
+ import Reg from '../views/Reg.vue'
+ import Charge from '../views/Charge.vue'
+ import tuifei from '../views/tuifei.vue'
+ 
 const routes = [{
 		path: '/',
 		redirect: '/index'
@@ -127,8 +133,28 @@ const routes = [{
 	   name:'WorkloadStatisticsQuery',
 	   component:WorkloadStatisticsQuery
 	  },
-	  ]
-	 },
+	  
+	  
+	  
+	  ],
+	  },
+	  // 挂号
+	  {
+	   path:'/Reg',
+	   name:'Reg',
+	   component:Reg
+	  },
+	  {
+	   path:'/Charge',
+	   name:'Charge',
+	   component:Charge
+	  },
+	  {
+	   path:'/tuifei',
+	   name:'tuifei',
+	   component:tuifei
+	  },
+
 
 
 

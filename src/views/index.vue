@@ -10,7 +10,7 @@
 			
 			<el-main style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 	<el-form-item class="my-button" style="width: 100%; ">
-		<el-button type="primary" class="btn-center" size="large" @click='doAdd()' color="#1F4FA3">门诊挂号收费站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
+		<el-button type="primary" class="btn-center" size="large" @click='tocharge()' color="#1F4FA3">门诊挂号收费站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
 		<el-button type="primary" class="btn-center" size="large" @click='toODW()' color="#1F4FA3">门诊医生工作站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
 		<el-button type="primary" class="btn-center" size="large" @click='doAdd()' color="#1F4FA3">门诊医技工作站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
 		<el-button type="primary" class="btn-center" size="large" @click='todrugquery()' color="#1F4FA3">门诊药房工作站</el-button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -51,6 +51,9 @@
 	
 	const todrugquery = () => {
 		router.push('/drugquery')
+	}
+	const tocharge = () => {
+		router.push('/Charge')
 	}
 	
 		
