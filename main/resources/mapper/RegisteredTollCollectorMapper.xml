@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.neuedu.his.mapper.register.RegisteredTollCollectorMapper">
+
+    <select id="selectAll" resultType="PatientCosts">
+        select p.ID , p.InvoiceID , p.ItemType , p.Name , p.Price, p.Amount , p.CreateTime , p.PayTime ,
+               r.CaseNumber,r.RealName,c.ConstantName,d.DeptName
+        from Patientcosts p,Register r,ConstantItem c , Department d
+        where p.RegistID = r.ID  and p.FeeType = c.ID and p.DeptID = d.ID
+        <if test="CaseNumber!=null and CaseNumber!=''">
+            and r.CaseNumber = #{CaseNumber}
+        </if>
+        <if test="StartTime!=null and StartTime!='' and EndTime!=null and EndTime!=''">
+            and DATE(PayTime) BETWEEN #{StartTime} AND #{EndTime}
+        </if>
+        order by p.PayTime desc
+    </select>
+
+</mapper>

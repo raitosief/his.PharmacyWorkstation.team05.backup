@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="com.neuedu.his.mapper.register.ChargeMapper">
+    <select id="selectByIDCheckAppy" resultType="CheckApply">
+        select * from CheckApply
+        <where>
+            <if test="RegistID!=null and RegistID!=''">
+              
+                and RegistID=#{RegistID}
+            </if>
+        </where>
+        order by id
+    </select>
+    <select id="selectByID" resultType="Fmeditem">
+        select * from Fmeditem
+        <where>
+            <if test="ID!=null and ID!=''">
+                and ID = #{ID}
+            </if>
+        </where>
+        order by id
+    </select>
+    <select id="selectByIDPrescription" resultType="Prescription">
+        select * from Prescription
+        <where>
+            <if test="RegistID!=null and RegistID!=''">
+               
+                and RegistID = #{RegistID}
+            </if>
+        </where>
+        order by id
+    </select>
+    <select id="selectByDetailed" resultType="PrescriptionDetailed">
+        select * from PrescriptionDetailed
+        <where>
+            <if test="PrescriptionID!=null and PrescriptionID!=''">
+            
+               and PrescriptionID =#{PrescriptionID}
+            </if>
+        </where>
+        order by id
+    </select>
+    <select id="selectByDrugID" resultType="Drugs">
+        select * from Drugs where ID=#{ID}
+    </select>
+    <update id="updateCheckApply">
+        update CheckApply set State=3 where ID=#{ID} 
+        <!-- 加条件 区别人 -->
+        <where>
+          
+        </where>
+    </update>
+    
+    <update id="updatePrescriptionDetailed">
+
+         update PrescriptionDetailed set State=3 where ID=#{ID}
+      
+   
+    </update>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+        namespace="com.neuedu.his.mapper.register.BackNumberMapper">
+    <select id="selectAllInvoice" resultType="Invoice">
+        select * from Invoice
+        <where>
+            <if test="InvoiceNum!=null and InvoiceNum!=''">
+                and InvoiceNum like concat('%',#{InvoiceNum},'%')
+            </if>
+            <if test="RegistID!=null and RegistID!=''">
+                and RegistID like concat('%',#{RegistID},'%')
+            </if>
+        </where>
+        order by id
+    </select>
+    <update id="updateInvoice">
+        update Invoice set InvoiceNum=#{InvoiceNum},Money=#{Money},State=7,
+        CreationTime=#{CreationTime},UserID=#{UserID},RegistID=#{RegistID},FeeType=#{FeeType},
+        Back=#{Back},DailyState=#{DailyState} where ID=#{ID}
+    </update>
+    <insert id="addInvoice" useGeneratedKeys="true" keyProperty="ID">
+        insert into Invoice(InvoiceNum,Money,State,CreationTime,UserID,RegistID,FeeType,
+        Back,DailyState)
+        value(#{InvoiceNum},#{Money},#{State},#{CreationTime},#{UserID},#{RegistID},#{FeeType},
+        #{Back},#{DailyState})
+    </insert>
+    <delete id="deleteInvoice">
+        delete from Invoice where ID=#{ID}
+    </delete>
+</mapper>
